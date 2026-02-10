@@ -218,6 +218,15 @@ extension SSAIGAMRefController: IMAAdsLoaderDelegate {
                   let duration = self.player.currentItem?.duration,
                   duration.isNumeric else { return }
             let streamSeconds = CMTimeGetSeconds(time)
+
+            // If playback hits an already-played ad break during normal playback, skip it.
+            if let cuepoint = (streamManager.cuepoints as? [IMACuepoint])?
+                .first(where: { $0.isPlayed && $0.startTime <= streamSeconds && streamSeconds < $0.endTime }) {
+                let target = CMTime(seconds: cuepoint.endTime + 0.1, preferredTimescale: 600)
+                self.player.seek(to: target, toleranceBefore: .zero, toleranceAfter: .zero)
+                return
+            }
+
             let contentSeconds = streamManager.contentTime(forStreamTime: streamSeconds)
             let contentDuration = streamManager.contentTime(forStreamTime: CMTimeGetSeconds(duration))
             guard contentDuration > 0 else { return }
