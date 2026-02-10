@@ -17,7 +17,6 @@ class SSAIGAMRefController: UIViewController {
     private var playerObservation: NSKeyValueObservation?
     private var timeObserverToken: Any?
     private var isPlayingAd = false
-    private var userSeekTime: CMTime?
 
     @IBOutlet private var spinner: UIActivityIndicatorView!
     @IBOutlet private var progressSlider: UISlider!
@@ -103,6 +102,11 @@ class SSAIGAMRefController: UIViewController {
                 self?.playerObservation = nil
                 if let self, !self.isPlayingAd {
                     self.showControls()
+                    if let cuepoints = self.streamManager?.cuepoints as? [IMACuepoint] {
+                        for (i, cp) in cuepoints.enumerated() {
+                            print("[SSAIGAMRef] Cuepoint \(i): start=\(cp.startTime) end=\(cp.endTime) played=\(cp.isPlayed)")
+                        }
+                    }
                 }
             }
         }
@@ -116,10 +120,10 @@ class SSAIGAMRefController: UIViewController {
         let targetContentSeconds = Double(slider.value) * contentDuration
         let targetStreamSeconds = streamManager.streamTime(forContentTime: targetContentSeconds)
 
-        // Snap back to unplayed cue points the user tries to seek past
-        if let cuePoint = streamManager.previousCuepoint(forStreamTime: targetStreamSeconds),
-           !cuePoint.isPlayed {
-            userSeekTime = CMTime(seconds: targetStreamSeconds, preferredTimescale: 600)
+        // Snap back to the first unplayed cue point before the target
+        if let cuePoint = (streamManager.cuepoints as? [IMACuepoint])?
+            .filter({ !$0.isPlayed && $0.startTime <= targetStreamSeconds })
+            .min(by: { $0.startTime < $1.startTime }) {
             let snapTime = CMTime(seconds: cuePoint.startTime, preferredTimescale: 600)
             player.seek(to: snapTime, toleranceBefore: .zero, toleranceAfter: .zero)
             return
@@ -232,14 +236,14 @@ extension SSAIGAMRefController: IMAStreamManagerDelegate {
     func streamManager(_ streamManager: IMAStreamManager, didReceive event: IMAAdEvent) {
         switch event.type {
         case .AD_BREAK_STARTED:
+            let pos = CMTimeGetSeconds(player.currentTime())
+            print("[SSAIGAMRef] AD_BREAK_STARTED at stream time \(pos)")
             isPlayingAd = true
             hideControls()
         case .AD_BREAK_ENDED:
+            let pos = CMTimeGetSeconds(player.currentTime())
+            print("[SSAIGAMRef] AD_BREAK_ENDED at stream time \(pos)")
             isPlayingAd = false
-            if let seekTime = userSeekTime {
-                userSeekTime = nil
-                player.seek(to: seekTime, toleranceBefore: .zero, toleranceAfter: .zero)
-            }
         default:
             break
         }
