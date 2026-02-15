@@ -71,4 +71,44 @@ extension SSAIGAMRefController {
             completion(true)
         }
     }
+
+    func extractAdParameters(from vastData: Data) -> [String: Any]? {
+        final class AdParametersParser: NSObject, XMLParserDelegate {
+            private var currentElement: String?
+            private var buffer = ""
+            private(set) var adParametersText: String?
+
+            func parser(_ parser: XMLParser, didStartElement elementName: String,
+                        namespaceURI: String?, qualifiedName qName: String?,
+                        attributes attributeDict: [String: String] = [:]) {
+                currentElement = elementName
+                if elementName == "AdParameters" {
+                    buffer = ""
+                }
+            }
+
+            func parser(_ parser: XMLParser, foundCharacters string: String) {
+                guard currentElement == "AdParameters" else { return }
+                buffer += string
+            }
+
+            func parser(_ parser: XMLParser, didEndElement elementName: String,
+                        namespaceURI: String?, qualifiedName qName: String?) {
+                if elementName == "AdParameters" {
+                    adParametersText = buffer.trimmingCharacters(in: .whitespacesAndNewlines)
+                }
+                currentElement = nil
+            }
+        }
+
+        let parser = XMLParser(data: vastData)
+        let delegate = AdParametersParser()
+        parser.delegate = delegate
+        guard parser.parse(), let text = delegate.adParametersText, !text.isEmpty else {
+            return nil
+        }
+
+        guard let jsonData = text.data(using: .utf8) else { return nil }
+        return (try? JSONSerialization.jsonObject(with: jsonData)) as? [String: Any]
+    }
 }

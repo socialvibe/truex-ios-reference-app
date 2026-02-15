@@ -1,5 +1,6 @@
 import AVFoundation
 import GoogleInteractiveMediaAds
+import TruexAdRenderer
 import UIKit
 
 class SSAIGAMRefController: UIViewController {
@@ -17,6 +18,10 @@ class SSAIGAMRefController: UIViewController {
     private var playerObservation: NSKeyValueObservation?
     private var timeObserverToken: Any?
     private var isPlayingAd = false
+    private var isPresentingInfillionAd = false
+    private var truexAdRenderer: TruexAdRenderer?
+    private var didReceiveInfillionCredit = false
+    private var lastInfillionAdEndTime: Double?
 
     @IBOutlet private var spinner: UIActivityIndicatorView!
     @IBOutlet private var progressSlider: UISlider!
@@ -42,11 +47,6 @@ class SSAIGAMRefController: UIViewController {
             // Workaround: fetch VAST configs to patch GAM ad data that we are unable
             // to modify at the source due to limited GAM account access (see +VASTWorkaround)
             loadVASTConfigs { [weak self] in
-                if let configs = self?.vastConfigs {
-                    for (key, data) in configs {
-                        print("[SSAIGAMRef] VAST config (\(key)):\n\(String(data: data, encoding: .utf8) ?? "<binary>")")
-                    }
-                }
                 self?.requestStream()
             }
         }
@@ -54,6 +54,9 @@ class SSAIGAMRefController: UIViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        truexAdRenderer?.stop()
+        truexAdRenderer = nil
+        isPresentingInfillionAd = false
         controlsTimer?.invalidate()
         controlsTimer = nil
         if let token = timeObserverToken {
@@ -197,6 +200,90 @@ class SSAIGAMRefController: UIViewController {
         )
         adsLoader.requestStream(with: request)
     }
+
+    private func handleAdStarted(_ event: IMAAdEvent) {
+        guard !isPresentingInfillionAd else { return }
+        guard let ad = event.ad else { return }
+        let adSystem = ad.adSystem.lowercased()
+
+        let isTruex = adSystem == "truex"
+        let isIDVx = adSystem == "idvx"
+        guard isTruex || isIDVx else { return }
+
+        let configKey = isIDVx ? "idvx" : "truex"
+        let vastData = vastConfigs?[configKey]
+        guard let vastData else {
+            print("[SSAIGAMRef] Missing prefetched VAST for \(configKey)")
+            return
+        }
+
+        // Calculate end time for the placeholder ad so we can seek past it
+        // when the Infillion experience completes without credit.
+        let currentStreamSeconds = CMTimeGetSeconds(player.currentTime())
+        let duration = ad.duration
+        if duration > 0 {
+            lastInfillionAdEndTime = currentStreamSeconds + duration
+        } else {
+            lastInfillionAdEndTime = nil
+        }
+
+        // Note: In a typical GAM flow, you would call getTraffickingParameters on the
+        // IMA ad object. Here we explicitly extract AdParameters from the prefetched VAST
+        // because we cannot modify the GAM ad source configuration (limited account access).
+        let params = extractAdParameters(from: vastData)
+        guard params != nil else {
+            print("[SSAIGAMRef] Missing AdParameters in prefetched VAST for \(configKey)")
+            return
+        }
+
+        startInfillionAd(params: params)
+    }
+
+    private func startInfillionAd(params: [String: Any]?) {
+        guard truexAdRenderer == nil else { return }
+        guard let params else { return }
+
+        isPresentingInfillionAd = true
+        didReceiveInfillionCredit = false
+
+        player.pause()
+        hideControls()
+
+        truexAdRenderer = TruexAdRenderer(adParameters: params, slotType: "midroll", delegate: self)
+
+        truexAdRenderer?.start(view)
+    }
+
+    private func finishInfillionAd(earnedCredit: Bool) {
+        truexAdRenderer?.stop()
+        truexAdRenderer = nil
+        isPresentingInfillionAd = false
+
+        player.play()
+
+        if earnedCredit {
+            skipCurrentAdBreak()
+            isPlayingAd = false
+            showControls()
+        } else if let lastInfillionAdEndTime {
+            // Seek to the end of the placeholder ad so fallback ads can play.
+            let lastInfillionAdEndSecond = floor(lastInfillionAdEndTime)
+            let target = CMTime(seconds: max(0, lastInfillionAdEndSecond - 0.1), preferredTimescale: 600)
+            player.seek(to: target, toleranceBefore: .zero, toleranceAfter: .zero)
+        }
+
+        lastInfillionAdEndTime = nil
+    }
+
+    private func skipCurrentAdBreak() {
+        guard let cuepoints = streamManager?.cuepoints as? [IMACuepoint] else { return }
+        let streamSeconds = CMTimeGetSeconds(player.currentTime())
+        guard let cuepoint = cuepoints.first(where: { $0.startTime <= streamSeconds && streamSeconds < $0.endTime }) else {
+            return
+        }
+        let target = CMTime(seconds: cuepoint.endTime + 0.1, preferredTimescale: 600)
+        player.seek(to: target, toleranceBefore: .zero, toleranceAfter: .zero)
+    }
 }
 
 // MARK: - IMAAdsLoaderDelegate
@@ -209,8 +296,7 @@ extension SSAIGAMRefController: IMAAdsLoaderDelegate {
         print("[SSAIGAMRef] Stream loaded successfully")
 
         let interval = CMTime(seconds: 0.5, preferredTimescale: 600)
-        timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval,
-                                                           queue: .main) { [weak self] time in
+        timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
             guard let self,
                   let streamManager = self.streamManager,
                   !self.isPlayingAd,
@@ -253,6 +339,10 @@ extension SSAIGAMRefController: IMAStreamManagerDelegate {
             let pos = CMTimeGetSeconds(player.currentTime())
             print("[SSAIGAMRef] AD_BREAK_ENDED at stream time \(pos)")
             isPlayingAd = false
+        case .STARTED:
+            let pos = CMTimeGetSeconds(player.currentTime())
+            print("[SSAIGAMRef] STARTED at stream time \(pos)")
+            handleAdStarted(event)
         default:
             break
         }
@@ -260,5 +350,33 @@ extension SSAIGAMRefController: IMAStreamManagerDelegate {
 
     func streamManager(_ streamManager: IMAStreamManager, didReceive error: IMAAdError) {
         print("[SSAIGAMRef] Ad error: \(error.message ?? "unknown error")")
+    }
+}
+
+// MARK: - TruexAdRendererDelegate
+
+extension SSAIGAMRefController: TruexAdRendererDelegate {
+    func onAdCompleted(_ timeSpent: Int) {
+        print("[SSAIGAMRef] TrueX completed: \(timeSpent)")
+        finishInfillionAd(earnedCredit: didReceiveInfillionCredit)
+    }
+
+    func onAdError(_ errorMessage: String) {
+        print("[SSAIGAMRef] TrueX error: \(errorMessage)")
+        finishInfillionAd(earnedCredit: didReceiveInfillionCredit)
+    }
+
+    func onNoAdsAvailable() {
+        print("[SSAIGAMRef] TrueX no ads available")
+        finishInfillionAd(earnedCredit: didReceiveInfillionCredit)
+    }
+
+    func onAdFreePod() {
+        print("[SSAIGAMRef] TrueX credit earned (ad-free pod)")
+        didReceiveInfillionCredit = true
+    }
+
+    func onPopupWebsite(_ url: String!) {
+        print("[SSAIGAMRef] TrueX popup: \(url ?? "<unknown>")")
     }
 }
