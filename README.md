@@ -51,6 +51,10 @@ Server-side ad insertion via Google Ad Manager. The implementation lives in `Int
 - Seeking snaps back to the first unplayed ad cue point before the target position
 - Already-played ad breaks are automatically skipped during normal playback
 
+## Documentation
+
+For the full Infillion iOS integration guide, see: https://socialvibe.github.io/infillion-ads-integration-docs/platforms/ios/
+
 ## Setup
 
 1. Clone the repository
