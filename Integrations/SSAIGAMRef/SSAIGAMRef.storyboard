@@ -3,19 +3,57 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--SSAI GAM Ref View Controller-->
+        <!--SSAI GAM Ref Controller-->
         <scene sceneID="SSAIGAM-Scene">
             <objects>
-                <viewController id="SSAIGAM-Id" customClass="SSAIGAMRefViewController" customModule="Integrations" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="SSAIGAM-Id" customClass="SSAIGAMRefController" customModule="Integrations" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SSAIGAM-View">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" animating="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SSAIGAM-Spinner">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
+                            <slider opaque="NO" contentMode="scaleToFill" hidden="YES" value="0" minValue="0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="SSAIGAM-Slider">
+                                <rect key="frame" x="16" y="621" width="343" height="30"/>
+                                <color key="minimumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="thumbTintColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </slider>
+                            <button opaque="NO" contentMode="scaleToFill" hidden="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" translatesAutoresizingMaskIntoConstraints="NO" id="SSAIGAM-PlayPause">
+                                <rect key="frame" x="147.5" y="293.5" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="SSAIGAM-PPW"/>
+                                    <constraint firstAttribute="height" constant="80" id="SSAIGAM-PPH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <state key="normal">
+                                    <imageReference key="image" name="play.fill" catalog="system" symbolScale="large"/>
+                                </state>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="SSAIGAM-Safe"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="SSAIGAM-Spinner" firstAttribute="centerX" secondItem="SSAIGAM-View" secondAttribute="centerX" id="SSAIGAM-CX"/>
+                            <constraint firstItem="SSAIGAM-Spinner" firstAttribute="centerY" secondItem="SSAIGAM-View" secondAttribute="centerY" id="SSAIGAM-CY"/>
+                            <constraint firstItem="SSAIGAM-Slider" firstAttribute="leading" secondItem="SSAIGAM-Safe" secondAttribute="leading" constant="16" id="SSAIGAM-SL"/>
+                            <constraint firstItem="SSAIGAM-Safe" firstAttribute="trailing" secondItem="SSAIGAM-Slider" secondAttribute="trailing" constant="16" id="SSAIGAM-ST"/>
+                            <constraint firstItem="SSAIGAM-Safe" firstAttribute="bottom" secondItem="SSAIGAM-Slider" secondAttribute="bottom" constant="16" id="SSAIGAM-SB"/>
+                            <constraint firstItem="SSAIGAM-PlayPause" firstAttribute="centerX" secondItem="SSAIGAM-View" secondAttribute="centerX" id="SSAIGAM-PPCX"/>
+                            <constraint firstItem="SSAIGAM-PlayPause" firstAttribute="centerY" secondItem="SSAIGAM-View" secondAttribute="centerY" id="SSAIGAM-PPCY"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="progressSlider" destination="SSAIGAM-Slider" id="SSAIGAM-SliderOutlet"/>
+                        <outlet property="playPauseButton" destination="SSAIGAM-PlayPause" id="SSAIGAM-PlayPauseOutlet"/>
+                        <outlet property="spinner" destination="SSAIGAM-Spinner" id="SSAIGAM-SpinnerOutlet"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SSAIGAM-FR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

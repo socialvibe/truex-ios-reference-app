@@ -1,0 +1,24 @@
+{
+  "originHash" : "ab0a16ef2274c78ad5f14b38cdc227348c11b97777b158121b2af74316a48201",
+  "pins" : [
+    {
+      "identity" : "swift-package-manager-google-interactive-media-ads-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/googleads/swift-package-manager-google-interactive-media-ads-ios",
+      "state" : {
+        "revision" : "871bc80349774ba228c41096129995d1e9848b04",
+        "version" : "3.28.10"
+      }
+    },
+    {
+      "identity" : "truexadrenderer-ios-swift-package",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/socialvibe/TruexAdRenderer-iOS-Swift-Package",
+      "state" : {
+        "revision" : "6add5ea999df749aaf41010f0e058fa1368dd65a",
+        "version" : "4.1.0"
+      }
+    }
+  ],
+  "version" : 3
+}

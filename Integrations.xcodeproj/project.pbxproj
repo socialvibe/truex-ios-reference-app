@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		433BE3A12F3A6339007CBF46 /* GoogleInteractiveMediaAds in Frameworks */ = {isa = PBXBuildFile; productRef = 433BE3A02F3A6339007CBF46 /* GoogleInteractiveMediaAds */; };
+		7C8D9E0F1A2B3C4D5E6F7091 /* TruexAdRenderer-iOS in Frameworks */ = {isa = PBXBuildFile; productRef = 7C8D9E0F1A2B3C4D5E6F7092 /* TruexAdRenderer-iOS */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		433BE3562F3A58E5007CBF46 /* Integrations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Integrations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				433BE3A12F3A6339007CBF46 /* GoogleInteractiveMediaAds in Frameworks */,
+				7C8D9E0F1A2B3C4D5E6F7091 /* TruexAdRenderer-iOS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,8 @@
 			);
 			name = Integrations;
 			packageProductDependencies = (
+				433BE3A02F3A6339007CBF46 /* GoogleInteractiveMediaAds */,
+				7C8D9E0F1A2B3C4D5E6F7092 /* TruexAdRenderer-iOS */,
 			);
 			productName = Integrations;
 			productReference = 433BE3562F3A58E5007CBF46 /* Integrations.app */;
@@ -107,6 +116,10 @@
 			);
 			mainGroup = 433BE34D2F3A58E5007CBF46;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				433BE39F2F3A6339007CBF46 /* XCRemoteSwiftPackageReference "swift-package-manager-google-interactive-media-ads-ios" */,
+				7C8D9E0F1A2B3C4D5E6F7093 /* XCRemoteSwiftPackageReference "TruexAdRenderer-iOS-Swift-Package" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 433BE3572F3A58E5007CBF46 /* Products */;
 			projectDirPath = "";
@@ -343,6 +356,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		433BE39F2F3A6339007CBF46 /* XCRemoteSwiftPackageReference "swift-package-manager-google-interactive-media-ads-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-interactive-media-ads-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.28.10;
+			};
+		};
+		7C8D9E0F1A2B3C4D5E6F7093 /* XCRemoteSwiftPackageReference "TruexAdRenderer-iOS-Swift-Package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socialvibe/TruexAdRenderer-iOS-Swift-Package";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		433BE3A02F3A6339007CBF46 /* GoogleInteractiveMediaAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 433BE39F2F3A6339007CBF46 /* XCRemoteSwiftPackageReference "swift-package-manager-google-interactive-media-ads-ios" */;
+			productName = GoogleInteractiveMediaAds;
+		};
+		7C8D9E0F1A2B3C4D5E6F7092 /* TruexAdRenderer-iOS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C8D9E0F1A2B3C4D5E6F7093 /* XCRemoteSwiftPackageReference "TruexAdRenderer-iOS-Swift-Package" */;
+			productName = "TruexAdRenderer-iOS";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 433BE34E2F3A58E5007CBF46 /* Project object */;
 }
