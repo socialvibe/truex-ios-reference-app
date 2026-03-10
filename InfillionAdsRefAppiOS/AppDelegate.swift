@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Integrations
+//  InfillionAdsRefAppiOS
 //
 //  Created by Blagovest Dachev on 2/9/26.
 //

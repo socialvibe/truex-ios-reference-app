@@ -18,7 +18,7 @@ class HomeViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Integrations"
+        title = "Infillion Ads Ref App"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
 

@@ -27,13 +27,13 @@
         <!--Home View Controller-->
         <scene sceneID="Home-Scene">
             <objects>
-                <tableViewController id="Home-Id" customClass="HomeViewController" customModule="Integrations" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Home-Id" customClass="HomeViewController" customModule="InfillionAdsRefAppiOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="HomeTV-Id">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Integrations" id="HomeNav-Id"/>
+                    <navigationItem key="navigationItem" title="Infillion Ads Ref App" id="HomeNav-Id"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Home-FR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

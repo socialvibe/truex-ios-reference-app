@@ -28,7 +28,7 @@ Both are delivered through the `TruexAdRenderer` and identified at runtime by th
 
 ### SSAI + GAM
 
-Server-side ad insertion via Google Ad Manager. The implementation lives in `Integrations/SSAIGAMRef/`.
+Server-side ad insertion via Google Ad Manager. The implementation lives in `InfillionAdsRefAppiOS/SSAIGAMRef/`.
 
 **Files:**
 - `SSAIGAMRefController.swift` — stream setup, ad break handling, TrueX renderer lifecycle
@@ -58,6 +58,6 @@ For the full Infillion iOS integration guide, see: https://socialvibe.github.io/
 ## Setup
 
 1. Clone the repository
-2. Open `Integrations.xcodeproj` in Xcode
+2. Open `InfillionAdsRefAppiOS.xcodeproj` in Xcode
 3. Xcode will resolve Swift Package Manager dependencies automatically
 4. Build and run on a simulator or device

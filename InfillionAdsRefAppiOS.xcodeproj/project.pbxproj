@@ -12,26 +12,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		433BE3562F3A58E5007CBF46 /* Integrations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Integrations.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		433BE3562F3A58E5007CBF46 /* InfillionAdsRefAppiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfillionAdsRefAppiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		433BE3682F3A58E7007CBF46 /* Exceptions for "Integrations" folder in "Integrations" target */ = {
+		433BE3682F3A58E7007CBF46 /* Exceptions for "InfillionAdsRefAppiOS" folder in "InfillionAdsRefAppiOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 433BE3552F3A58E5007CBF46 /* Integrations */;
+			target = 433BE3552F3A58E5007CBF46 /* InfillionAdsRefAppiOS */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		433BE3582F3A58E5007CBF46 /* Integrations */ = {
+		433BE3582F3A58E5007CBF46 /* InfillionAdsRefAppiOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				433BE3682F3A58E7007CBF46 /* Exceptions for "Integrations" folder in "Integrations" target */,
+				433BE3682F3A58E7007CBF46 /* Exceptions for "InfillionAdsRefAppiOS" folder in "InfillionAdsRefAppiOS" target */,
 			);
-			path = Integrations;
+			path = InfillionAdsRefAppiOS;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -52,7 +52,7 @@
 		433BE34D2F3A58E5007CBF46 = {
 			isa = PBXGroup;
 			children = (
-				433BE3582F3A58E5007CBF46 /* Integrations */,
+				433BE3582F3A58E5007CBF46 /* InfillionAdsRefAppiOS */,
 				433BE3572F3A58E5007CBF46 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,7 +60,7 @@
 		433BE3572F3A58E5007CBF46 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				433BE3562F3A58E5007CBF46 /* Integrations.app */,
+				433BE3562F3A58E5007CBF46 /* InfillionAdsRefAppiOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,9 +68,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		433BE3552F3A58E5007CBF46 /* Integrations */ = {
+		433BE3552F3A58E5007CBF46 /* InfillionAdsRefAppiOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 433BE3692F3A58E7007CBF46 /* Build configuration list for PBXNativeTarget "Integrations" */;
+			buildConfigurationList = 433BE3692F3A58E7007CBF46 /* Build configuration list for PBXNativeTarget "InfillionAdsRefAppiOS" */;
 			buildPhases = (
 				433BE3522F3A58E5007CBF46 /* Sources */,
 				433BE3532F3A58E5007CBF46 /* Frameworks */,
@@ -81,15 +81,15 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				433BE3582F3A58E5007CBF46 /* Integrations */,
+				433BE3582F3A58E5007CBF46 /* InfillionAdsRefAppiOS */,
 			);
-			name = Integrations;
+			name = InfillionAdsRefAppiOS;
 			packageProductDependencies = (
 				433BE3A02F3A6339007CBF46 /* GoogleInteractiveMediaAds */,
 				7C8D9E0F1A2B3C4D5E6F7092 /* TruexAdRenderer-iOS */,
 			);
-			productName = Integrations;
-			productReference = 433BE3562F3A58E5007CBF46 /* Integrations.app */;
+			productName = InfillionAdsRefAppiOS;
+			productReference = 433BE3562F3A58E5007CBF46 /* InfillionAdsRefAppiOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -107,7 +107,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 433BE3512F3A58E5007CBF46 /* Build configuration list for PBXProject "Integrations" */;
+			buildConfigurationList = 433BE3512F3A58E5007CBF46 /* Build configuration list for PBXProject "InfillionAdsRefAppiOS" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -125,7 +125,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				433BE3552F3A58E5007CBF46 /* Integrations */,
+				433BE3552F3A58E5007CBF46 /* InfillionAdsRefAppiOS */,
 			);
 		};
 /* End PBXProject section */
@@ -159,7 +159,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Integrations/Info.plist;
+				INFOPLIST_FILE = InfillionAdsRefAppiOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -171,7 +171,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.truex.ios.Integrations;
+				PRODUCT_BUNDLE_IDENTIFIER = com.truex.ios.InfillionAdsRefAppiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -191,7 +191,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Integrations/Info.plist;
+				INFOPLIST_FILE = InfillionAdsRefAppiOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -203,7 +203,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.truex.ios.Integrations;
+				PRODUCT_BUNDLE_IDENTIFIER = com.truex.ios.InfillionAdsRefAppiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -337,7 +337,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		433BE3512F3A58E5007CBF46 /* Build configuration list for PBXProject "Integrations" */ = {
+		433BE3512F3A58E5007CBF46 /* Build configuration list for PBXProject "InfillionAdsRefAppiOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				433BE36C2F3A58E7007CBF46 /* Debug */,
@@ -346,7 +346,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		433BE3692F3A58E7007CBF46 /* Build configuration list for PBXNativeTarget "Integrations" */ = {
+		433BE3692F3A58E7007CBF46 /* Build configuration list for PBXNativeTarget "InfillionAdsRefAppiOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				433BE36A2F3A58E7007CBF46 /* Debug */,
